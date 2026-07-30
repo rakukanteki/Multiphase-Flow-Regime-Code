@@ -9,7 +9,39 @@ Accurate recognition of gas-liquid two-phase flow regimes is critical for ensuri
 3.	A condition-aware measurement validation mechanism is proposed, where predicted operating conditions are used to retrieve corresponding flow visualizations, enabling human-interpretable verification of measurement outputs.
 4.	The framework enables real-time monitoring by linking sensor data, predicted operating conditions, and visual flow states to support digital-twin applications.
 
-## Codebase:
+## Methodology Figure:
+![Experimental Methodology](/assets/methodology.png)
+
+## Model Architecture:
+![Network Architecture](/assets/architectural.png)
+
+## Performance Metrics:
+##### LEARNED UNCERTAINTY-WEIGHTING SIGMAS (Best Fold, Final Epoch)
+| Task | Learned Sigma (σ) |
+|------|------------------:|
+| Classification | **0.58767** |
+| Gas Superficial Velocity (Vsg) | **0.69532** |
+| Liquid Superficial Velocity (Vsl) | **0.58659** |
+| Physics Constraint | **0.81358** |
+| Mass Conservation Constraint | **0.64710** |
+
+##### CLASSIFICATION REPORT (Test Split, Held-Out, File-Level, Best-Fold Model)
+| Class | Precision | Recall | F1-Score | Support |
+|--------|----------:|-------:|---------:|--------:|
+| Dispersed Flow | 1.0000 | 1.0000 | 1.0000 | 18 |
+| Plug Flow | 0.8947 | 0.8947 | 0.8947 | 19 |
+| Slug Flow | 0.8947 | 0.8947 | 0.8947 | 19 |
+
+| Metric | Precision | Recall | F1-Score | Support |
+|--------|----------:|-------:|---------:|--------:|
+| **Accuracy** | - | - | **0.9286** | 56 |
+| **Macro Avg** | 0.9298 | 0.9298 | 0.9298 | 56 |
+| **Weighted Avg** | 0.9286 | 0.9286 | 0.9286 | 56 |
+
+## Top-K Visual Retrieval:
+
+
+## Codebase Structure:
 ```
 Multiphase-Flow-Regime-Code/
 ├── pinn/                          # Multi-Task Physics-Informed Neural Network
@@ -45,6 +77,3 @@ Multiphase-Flow-Regime-Code/
     ├── system.py                  
     └── types.py               
 ```
-
-## Model Architecture:
-![Network Architecture](/assets/image.png)
