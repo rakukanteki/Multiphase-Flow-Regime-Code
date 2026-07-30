@@ -1,13 +1,17 @@
-# Multiphase Flow PINN — Modular Codebase
+# Physics-Guided Multiphase Flow Metering and Regime Identification Using Multi-Task Learning with Condition-Aware Visualization
 
-Refactored from the original notebooks into two importable packages.
-Per your instructions, **none of the packages contain**: `print` statements,
-data loaders / `Dataset` construction, file reading/extraction code, or
-plotting code. Everything here is designed to be called from your own
-data-loading + logging + plotting layer.
+## Abstract:
+Accurate recognition of gas-liquid two-phase flow regimes is critical for ensuring the safety, efficiency, and reliability of multiphase flow measurements. Traditional data-driven methods often overlook fundamental physical principles, limiting interpretability and generalization across varying operating conditions. This study proposes a Multi-Task Physics-Informed Neural Network (MTPINN) for simultaneous multiphase flow metering and flow regime classification by embedding momentum-based physical constraints into the learning process. The framework integrates CNN-based temporal pressure encoding, FFT-derived spectral features, and physics-informed regularization to produce physically consistent predictions. Evaluated under leakage-free five-fold GroupKFold cross-validation, the proposed model achieved an accuracy of 95.96% ± 3.13%, while attaining 92.86% classification accuracy and a weighted F1-score of 92.86%. The velocity regression module achieved mean absolute errors of 0.0537 m/s for gas superficial velocity (Vsg) and 0.2557 m/s for liquid superficial velocity (Vsl), enabling accurate non-intrusive flow metering. The predicted velocities are further exploited as operating-condition descriptors for condition-aware video retrieval, where the developed real-time system achieved 76.43% Top-1. The proposed physics-guided framework improves prediction accuracy, physical consistency, and interpretability while providing a practical foundation for intelligent multiphase flow monitoring and digital-twin applications.
 
+## Contributions:
+1.	A physics-constrained measurement learning framework is proposed, where governing momentum-balance relationships are embedded into a data-driven model to enforce physically consistent estimation of flow regimes and operating conditions from pressure signals.
+2.	A unified multi-task measurement model is developed for simultaneous flow regime identification and superficial velocity estimation, enabling joint inference of discrete and continuous flow characteristics within a single physically guided framework.
+3.	A condition-aware measurement validation mechanism is proposed, where predicted operating conditions are used to retrieve corresponding flow visualizations, enabling human-interpretable verification of measurement outputs.
+4.	The framework enables real-time monitoring by linking sensor data, predicted operating conditions, and visual flow states to support digital-twin applications.
+
+## Codebase:
 ```
-codebase/
+Multiphase-Flow-Regime-Code/
 ├── pinn/                          # Multi-Task Physics-Informed Neural Network
 │   ├── config.py                  # physical constants, drift-flux closure, hyperparameters
 │   ├── features.py                # FFT + statistical feature extraction, resampling
@@ -26,53 +30,21 @@ codebase/
 │       └── evaluation.py          # evaluate_on_loader(), regression_metrics()
 │
 └── ablation/                      # Classical-ML baseline ablation study
-    ├── config.py
-    ├── models.py                  # get_classifiers(), get_regressors()
-    ├── splits.py                  # make_split() — StratifiedKFold + held-out test
-    ├── stats.py                   # confidence_interval(), clipped_asymmetric_error()
-    └── training.py                # run_classification_ablation(), run_regression_ablation()
+|    ├── config.py
+|    ├── models.py                  # get_classifiers(), get_regressors()
+|    ├── splits.py                  # make_split() — StratifiedKFold + held-out test
+|    ├── stats.py                   # confidence_interval(), clipped_asymmetric_error()
+|    └── training.py                # run_classification_ablation(), run_regression_ablation()
+|
+└── results/                       # Contains classical ML results, ablation study, Our model performance.
+└── models/                        # Contains the trained models.
+└── retrieval/                     # TopK visual retrieval files.
+    ├── demo.py
+    ├── display.py                  
+    ├── player.py                  
+    ├── system.py                  
+    └── types.py               
 ```
 
-## What's intentionally NOT here
-
-- **Data loading**: reading `.xlsx` files, building `MultiphaseFlowDataset`,
-  constructing `DataLoader`s. `pinn/training/trainer.py` and
-  `pinn/training/kfold_runner.py` take already-built `DataLoader`s /
-  `FoldBundle`s as parameters — wire up your own data layer and pass them in.
-- **Prints/logging**: none of these functions print. Hang your own logger
-  off the returned `history` dicts / result dicts.
-- **Plotting**: no matplotlib/seaborn. Everything returns plain
-  dicts/arrays (`history`, `eval_results`, `summary_rows`) for you to plot
-  however you like.
-
-## Wiring it together (sketch)
-
-```python
-from pathlib import Path
-from pinn.training import FoldBundle, run_kfold_train_val_test, evaluate_on_loader
-
-# 1. Your own data layer builds one FoldBundle per fold:
-#    train_loader, val_loader, fitted scaler_vsg/scaler_vsl,
-#    dpdx_mean/std and q_mean/std (computed ONLY from that fold's train split).
-fold_bundles = [ ... ]  # list[FoldBundle]
-
-# 2. Train + cross-validate:
-result = run_kfold_train_val_test(fold_bundles, models_dir=Path("models"))
-
-# 3. Evaluate the best fold's model on your held-out test loader:
-eval_results = evaluate_on_loader(
-    best_model, test_loader,
-    result["best_scalers"]["vsg"], result["best_scalers"]["vsl"],
-    result["best_scalers"]["dpdx_mean"], result["best_scalers"]["dpdx_std"],
-    result["best_scalers"]["q_mean"], result["best_scalers"]["q_std"],
-)
-```
-
-## Notebooks not modularized here
-
-- **`topk-video-retrieval.ipynb`** was left out. It's an inference/demo
-  tool (loads video files, uses `ipywidgets`/`IPython.display` for an
-  interactive UI) — it has no training loop, no loss computation, and no
-  KFold logic, so it didn't match any item on the "keep" list, and its
-  content is almost entirely file reading + UI + duplicate model
-  definition (already covered by `pinn/models/`).
+## Model Architecture:
+![Network Architecture](/assets/image.png)
