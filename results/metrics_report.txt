@@ -1,0 +1,53 @@
+=================================================================
+  5-FOLD CROSS-VALIDATION SUMMARY (val split, per fold)
+=================================================================
+  Val Loss : 3.7917 +/- 0.5567
+             per fold: ['3.2853', '4.8739', '3.5796', '3.6833', '3.5365']
+  Val Acc  : 85.00% +/- 3.96%
+             per fold: ['88.89%', '77.78%', '85.00%', '85.00%', '88.33%']
+  Best fold (lowest val loss): Fold 1
+=================================================================
+  LEARNED UNCERTAINTY-WEIGHTING SIGMAS (best fold, final epoch)
+=================================================================
+  sigma_classification  = 0.60417
+  sigma_vsg             = 0.65220
+  sigma_vsl             = 0.61987
+  sigma_physics         = 0.87395
+  sigma_mass_conserv    = 0.73513
+  (smaller sigma -> larger effective weight 1/(2*sigma^2) on that task)
+=================================================================
+  CLASSIFICATION REPORT  (TEST split, held out, file-level, best-fold model)
+=================================================================
+                precision    recall  f1-score   support
+
+Dispersed Flow     0.9412    0.8889    0.9143        18
+     Plug Flow     0.7000    0.7778    0.7368        18
+     Slug Flow     0.7059    0.6667    0.6857        18
+
+      accuracy                         0.7778        54
+     macro avg     0.7824    0.7778    0.7789        54
+  weighted avg     0.7824    0.7778    0.7789        54
+
+=================================================================
+  VELOCITY REGRESSION METRICS  (original scale, TEST split, best-fold model)
+=================================================================
+  Vsg  MAE  = 0.06971 m/s
+  Vsg  MSE  = 0.00720 (m/s)^2
+  Vsg  RMSE = 0.08483 m/s
+  Vsl  MAE  = 0.42019 m/s
+  Vsl  MSE  = 0.28704 (m/s)^2
+  Vsl  RMSE = 0.53576 m/s
+=================================================================
+  PHYSICS CONSISTENCY  (drift-flux Darcy-Weisbach dP/dx computed from
+  the model's PREDICTED velocities, vs. measured dP/dx, TEST split)
+=================================================================
+  MAE  = 0.02340 bar/m
+  RMSE = 0.02434 bar/m
+=================================================================
+  MASS-CONSERVATION CONSISTENCY  (Q=A*(Vsg+Vsl) computed from the
+  model's PREDICTED velocities, vs. Q from the true set-point
+  velocities, TEST split)
+=================================================================
+  MAE  = 0.00091889 m^3/s
+  RMSE = 0.00117925 m^3/s
+=================================================================

@@ -1,0 +1,14 @@
+Model: RF
+CV accuracy: 0.6960 +/- 0.1020 (95% CI +/- 0.1416)
+CV f1_macro: 0.6945 +/- 0.1070 (95% CI +/- 0.1485)
+
+TEST SET CLASSIFICATION REPORT
+                precision    recall  f1-score   support
+
+Dispersed Flow     0.8889    0.8889    0.8889        18
+     Plug Flow     0.5714    0.4444    0.5000        18
+     Slug Flow     0.5909    0.7222    0.6500        18
+
+      accuracy                         0.6852        54
+     macro avg     0.6837    0.6852    0.6796        54
+  weighted avg     0.6837    0.6852    0.6796        54

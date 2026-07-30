@@ -1,0 +1,14 @@
+Model: kNN
+CV accuracy: 0.4902 +/- 0.0131 (95% CI +/- 0.0182)
+CV f1_macro: 0.4364 +/- 0.0185 (95% CI +/- 0.0257)
+
+TEST SET CLASSIFICATION REPORT
+                precision    recall  f1-score   support
+
+Dispersed Flow     0.4146    0.9444    0.5763        18
+     Plug Flow     0.2000    0.1111    0.1429        18
+     Slug Flow     0.6667    0.1111    0.1905        18
+
+      accuracy                         0.3889        54
+     macro avg     0.4271    0.3889    0.3032        54
+  weighted avg     0.4271    0.3889    0.3032        54
