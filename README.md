@@ -1,19 +1,19 @@
-# Physics-Guided Multiphase Flow Metering and Regime Identification Using Multi-Task Learning with Condition-Aware Visualization
+# Physics-Guided Multiphase Flow Metering and Regime Identification Using Multi-Task Learning with Condition-Aware Visualization 
 
 ## Abstract:
-Accurate recognition of gas-liquid two-phase flow regimes is critical for ensuring the safety, efficiency, and reliability of multiphase flow measurements. Traditional data-driven methods often overlook fundamental physical principles, limiting interpretability and generalization across varying operating conditions. This study proposes a Multi-Task Physics-Informed Neural Network (MTPINN) for simultaneous multiphase flow metering and flow regime classification by embedding momentum-based physical constraints into the learning process. The framework integrates CNN-based temporal pressure encoding, FFT-derived spectral features, and physics-informed regularization to produce physically consistent predictions. Evaluated under leakage-free five-fold GroupKFold cross-validation, the proposed model achieved an accuracy of 95.96% ± 3.13%, while attaining 92.86% classification accuracy and a weighted F1-score of 92.86%. The velocity regression module achieved mean absolute errors of 0.0537 m/s for gas superficial velocity (Vsg) and 0.2557 m/s for liquid superficial velocity (Vsl), enabling accurate non-intrusive flow metering. The predicted velocities are further exploited as operating-condition descriptors for condition-aware video retrieval, where the developed real-time system achieved 76.43% Top-1. The proposed physics-guided framework improves prediction accuracy, physical consistency, and interpretability while providing a practical foundation for intelligent multiphase flow monitoring and digital-twin applications.
+Accurate recognition of gas-liquid two-phase flow regimes is critical for ensuring the safety, efficiency, and reliability of multiphaseflow measurements. Traditional data driven methods often overlook fundamental physical principles, limiting interpretability and generalization across varying operating conditions. This study proposes a Multi-Task Physics Guided Neural Network (MTPGNN) for simultaneous multiphase flow metering and flow regime classification by embedding momentum-based physical constraints into the  learning process. The framework integrates CNN-based temporal pressure encoding, FFT-derived spectral features, and physics guided regularization to produce physically consistent predictions. Evaluated using five-fold file-disjoint cross validation with within-regime operating-condition grouping, the proposed model achieved an accuracy of 95.96% ± 3.13%, while attaining 92.86% classification accuracy and a weighted F1-score  of 92.86%. The velocity regression module achieved mean absolute errors of 0.0537 m/s for gas superficial velocity (Vsg) and 0 2557 m/s for liquid superficial velocity (Vsl), enabling accurate non-intrusive flow metering. The predicted velocities are further exploited as operating-condition descriptors for condition-aware video retrieval, where the developed real-time  system achieved 76.43% Top-1. The proposed physics-guided framework improves prediction accuracy, physical consistency, and interpretability while providing a practical foundation for intelligent multiphase flow monitoring and digital-twin applications. 
 
 ## Contributions:
-1.	A physics-constrained measurement learning framework is proposed, where governing momentum-balance relationships are embedded into a data-driven model to enforce physically consistent estimation of flow regimes and operating conditions from pressure signals.
-2.	A unified multi-task measurement model is developed for simultaneous flow regime identification and superficial velocity estimation, enabling joint inference of discrete and continuous flow characteristics within a single physically guided framework.
-3.	A condition-aware measurement validation mechanism is proposed, where predicted operating conditions are used to retrieve corresponding flow visualizations, enabling human-interpretable verification of measurement outputs.
-4.	The framework enables real-time monitoring by linking sensor data, predicted operating conditions, and visual flow states to support digital-twin applications.
+1.	A physics-guided measurement framework is proposed in which reduced-order drift-flux, pressure-gradient, and volumetric-flow relationships are incorporated as differentiable consistency regularizers to guide superficial-velocity estimation toward physically plausible operating conditions. 
+2.	A unified multi-task model is developed for simultaneous flow-regime identification and superficial gas and liquid velocity estimation, enabling joint inference of discrete flow states and continuous operating parameters from pressure measurements. 
+3.	A condition-aware retrieval mechanism is introduced in which the predicted flow regime and superficial velocities are used to retrieve experimentally recorded flow visualizations, providing an interpretable link between numerical predictions and observed flow behavior. 
+4.	The proposed framework integrates pressure sensing, multi-task prediction, physics-guided consistency regularization, and condition-aware visualization within a single workflow, providing a foundation for intelligent multiphase-flow monitoring and future digital-twin integration. 
 
 ## Methodology Figure:
-![Experimental Methodology](/assets/methodology.png)
+![Experimental Methodology](/assets/method.svg)
 
 ## Model Architecture:
-![Network Architecture](/assets/architectural.png)
+![Network Architecture](/assets/Network.svg)
 
 ## Performance Metrics:
 ##### LEARNED UNCERTAINTY-WEIGHTING SIGMAS (Best Fold, Final Epoch)
@@ -62,11 +62,7 @@ Multiphase-Flow-Regime-Code/
 │       └── evaluation.py          # evaluate_on_loader(), regression_metrics()
 │
 └── ablation/                      # Classical-ML baseline ablation study
-|    ├── config.py
-|    ├── models.py                  # get_classifiers(), get_regressors()
-|    ├── splits.py                  # make_split() — StratifiedKFold + held-out test
-|    ├── stats.py                   # confidence_interval(), clipped_asymmetric_error()
-|    └── training.py                # run_classification_ablation(), run_regression_ablation()
+|    ├── ablation-study.py
 |
 └── results/                       # Contains classical ML results, ablation study, Our model performance.
 └── models/                        # Contains the trained models.
