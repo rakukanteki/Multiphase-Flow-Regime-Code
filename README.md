@@ -38,9 +38,6 @@ Accurate recognition of gas-liquid two-phase flow regimes is critical for ensuri
 | **Macro Avg** | 0.9298 | 0.9298 | 0.9298 | 56 |
 | **Weighted Avg** | 0.9286 | 0.9286 | 0.9286 | 56 |
 
-## Top-K Visual Retrieval:
-
-
 ## Codebase Structure:
 ```
 Multiphase-Flow-Regime-Code/
